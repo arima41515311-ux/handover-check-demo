@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#152c49"><meta name="apple-mobile-web-app-title" content="清掃チェック"><title>清掃チェック｜共有診断版 v13</title><style>:root{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN',Meiryo,sans-serif;color:#20344d}*{box-sizing:border-box}body{margin:0;background:#152c49;padding:8px 13px 28px}header,section{max-width:630px;margin:0 auto 15px;border-radius:20px;background:white;overflow:hidden}header{background:#d5efff;padding:22px 20px}header h1{margin:0;font-size:27px;color:#173c65}header p{margin:7px 0 0;font-size:12px;color:#426483}.pill{display:inline-block;border-radius:20px;background:#fff6df;color:#8c610e;padding:5px 9px;font-size:11px;font-weight:bold;margin-top:10px}section h2{font-size:19px;margin:0;padding:17px 18px 12px;border-bottom:1px solid #edf1f5}section .body{padding:15px 18px}.numbers{font-size:27px;font-weight:800;color:#234d7d}.bar{height:10px;background:#e7edf4;border-radius:10px;overflow:hidden;margin:12px 0}.fill{height:100%;width:0;background:#16895c;transition:width .2s}.sub{font-size:12px;color:#71839a}.row{display:flex;align-items:center;gap:13px;min-height:68px;padding:13px 18px;border-bottom:1px solid #edf1f5;background:white;width:100%;text-align:left;border-left:0;border-right:0;border-top:0;font:inherit;color:inherit;cursor:pointer}.row:last-child{border-bottom:0}.row.done{background:#f0fbf5}.box{border:2px solid #b8c7d7;border-radius:9px;width:32px;height:32px;display:grid;place-items:center;flex:none;font-size:21px;color:white}.done .box{background:#16895c;border-color:#16895c}.label{font-size:16px;font-weight:650;flex:1}.time{font-size:11px;color:#16895c;font-weight:bold;white-space:nowrap}.hint{font-size:12px;color:#95651c;background:#fff7e7;padding:4px 8px;border-radius:8px;display:inline-block;margin-top:5px}.notice{max-width:630px;margin:15px auto;color:#e5eef9;font-size:12px;line-height:1.7}.reset{background:white;color:#315f92;border:0;border-radius:12px;padding:12px 17px;font-weight:700;cursor:pointer}footer{max-width:630px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}@media(max-width:370px){.label{font-size:14px}.row{padding:12px}.time{font-size:10px}}</style></head>
+<body>
+<header><h1>🧹 清掃チェック</h1><p>今日の清掃状況をみんなで確認</p><div class="pill">共有診断 v13｜毎朝5時切替</div></header>
+<section><div class="body"><div class="sub">本日の清掃進捗</div><div class="numbers" id="progress">0 / 15 完了</div><div class="bar"><div class="fill" id="fill"></div></div><div class="sub" id="split">1F 0 / 11　・　2F 0 / 4</div></div></section>
+<section><h2>1F 清掃（11項目）</h2><div id="floor1"><button type="button" class="row" data-i="0" aria-pressed="false"><span class="box"></span><span class="label">玄関</span><span class="time"></span></button>
+<button type="button" class="row" data-i="1" aria-pressed="false"><span class="box"></span><span class="label">食堂の床<br><span class="hint">🌙 夕食後</span></span><span class="time"></span></button>
+<button type="button" class="row" data-i="2" aria-pressed="false"><span class="box"></span><span class="label">食堂の机</span><span class="time"></span></button>
+<button type="button" class="row" data-i="3" aria-pressed="false"><span class="box"></span><span class="label">事務所</span><span class="time"></span></button>
+<button type="button" class="row" data-i="4" aria-pressed="false"><span class="box"></span><span class="label">共同トイレ</span><span class="time"></span></button>
+<button type="button" class="row" data-i="5" aria-pressed="false"><span class="box"></span><span class="label">職員トイレ</span><span class="time"></span></button>
+<button type="button" class="row" data-i="6" aria-pressed="false"><span class="box"></span><span class="label">男性更衣室</span><span class="time"></span></button>
+<button type="button" class="row" data-i="7" aria-pressed="false"><span class="box"></span><span class="label">洗濯室（フィルター）</span><span class="time"></span></button>
+<button type="button" class="row" data-i="8" aria-pressed="false"><span class="box"></span><span class="label">相談室</span><span class="time"></span></button>
+<button type="button" class="row" data-i="9" aria-pressed="false"><span class="box"></span><span class="label">階段</span><span class="time"></span></button>
+<button type="button" class="row" data-i="10" aria-pressed="false"><span class="box"></span><span class="label">手すり消毒</span><span class="time"></span></button></div></section>
+<section><h2>2F 清掃（4項目）</h2><div id="floor2"><button type="button" class="row" data-i="11" aria-pressed="false"><span class="box"></span><span class="label">女性更衣室</span><span class="time"></span></button>
+<button type="button" class="row" data-i="12" aria-pressed="false"><span class="box"></span><span class="label">休憩室（220号室）</span><span class="time"></span></button>
+<button type="button" class="row" data-i="13" aria-pressed="false"><span class="box"></span><span class="label">廊下</span><span class="time"></span></button>
+<button type="button" class="row" data-i="14" aria-pressed="false"><span class="box"></span><span class="label">手すり消毒</span><span class="time"></span></button></div></section>
+<section style="padding:15px 18px"><strong>🔌 共有接続の状態</strong><div id="syncStatus" role="status" style="margin-top:8px;font-size:16px;font-weight:700;color:#234d7d">接続状態を確認中…</div><div id="errorDetail" style="margin-top:8px;font-size:12px;overflow-wrap:anywhere;color:#a33232"></div><button id="retryConnect" type="button" class="reset" style="margin-top:10px;background:#e8f1fb">接続を再試行</button></section><div class="notice" style="max-width:630px;margin:10px auto" id="modeNotice">Firebase共有テスト版：接続完了まで操作できません。</div>
+<script type="module">
+(function(){
+'use strict';
+// 共有版はローカル保存を参照しない（誤った完了表示を防止）。
+// Firebase Webアプリ設定。共有はFirestoreルール公開後に利用可能。
+var firebaseConfig = {
+  apiKey: 'AIzaSyBFcUkYK79sQ1i7G8tCGEENbvbHGV2Ojzw',
+  authDomain: 'takatsuki-cleaning-check.firebaseapp.com',
+  projectId: 'takatsuki-cleaning-check',
+  storageBucket: 'takatsuki-cleaning-check.firebasestorage.app',
+  messagingSenderId: '104777878897',
+  appId: '1:104777878897:web:22467230673359680f3528'
+};
+var initializeApp, getFirestore, doc, onSnapshot, runTransaction, getAuth, signInAnonymously;
+var db=null, cloudRef=null, unsubscribe=null, online=false, pending=false, ready=false, generation=0;
+var status=document.getElementById('syncStatus');
+var modeNotice=document.getElementById('modeNotice');
+var errorDetail=document.getElementById('errorDetail');
+function showError(stage,err){var code=err&&err.code?String(err.code):'unknown';errorDetail.textContent=stage+'：'+code+' / '+(err&&err.message?String(err.message):'詳細不明');console.error(stage,err);}
+function clearError(){errorDetail.textContent='';}
+function setStatus(s){status.textContent=s;}
+function configured(){return firebaseConfig && firebaseConfig.apiKey && !firebaseConfig.apiKey.includes('_HERE') && firebaseConfig.projectId && firebaseConfig.appId && !firebaseConfig.appId.includes('_HERE');}
+
+function dayKey(date){
+ // 日本時間の朝5時を日付境界にする（端末のタイムゾーン設定に依存しない）。
+ var jst=new Date(date.getTime()+9*60*60*1000-5*60*60*1000);
+ return jst.getUTCFullYear()+'-'+String(jst.getUTCMonth()+1).padStart(2,'0')+'-'+String(jst.getUTCDate()).padStart(2,'0');
+}
+var activeDay=dayKey(new Date());
+var state=Array(15).fill(null);
+function checkDay(){
+ var today=dayKey(new Date());
+ if(today!==activeDay){activeDay=today;state=Array(15).fill(null);update();if(db && ready)connectDay();}
+}
+var buttons=document.querySelectorAll('button[data-i]');
+function update(){
+ var count=0,first=0,second=0;
+ buttons.forEach(function(button){
+  var i=Number(button.getAttribute('data-i'));
+  var done=state[i]!==null;
+  if(done){count++;if(i<11){first++;}else{second++;}}
+  button.disabled=!ready || !online || pending;
+  button.classList.toggle('done',done);
+  button.setAttribute('aria-pressed',done?'true':'false');
+  button.querySelector('.box').textContent=done?'✓':'';
+  button.querySelector('.time').textContent=done?'完了 '+state[i]:'';
+ });
+ document.getElementById('progress').textContent=count+' / 15 完了';
+ document.getElementById('fill').style.width=(count/15*100)+'%';
+ document.getElementById('split').textContent='1F '+first+' / 11　・　2F '+second+' / 4';
+}
+buttons.forEach(function(button){button.addEventListener('click',function(){
+ var i=Number(button.getAttribute('data-i'));
+ checkDay();
+ if(!ready || !db || !online || pending){setStatus('共有接続待ち：操作できません');return;}
+ if(db){
+  if(pending)return;
+  if(!online){setStatus('通信待ち：操作できません');return;}
+  var target=cloudRef;
+  var actionDay=activeDay;
+  pending=true;setStatus('保存中…');update();
+  runTransaction(db,async function(tx){
+   if(dayKey(new Date())!==actionDay)throw new Error('日付が切り替わりました。再読み込みしてください');
+   var snap=await tx.get(target);
+   var old=snap.exists() && Array.isArray(snap.data().state)?snap.data().state:Array(15).fill(null);
+   if(old.length!==15)old=Array(15).fill(null);
+   var next=old.slice();
+   next[i]=next[i]!==null?null:new Date().toLocaleTimeString('ja-J',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Tokyo'});
+   if(dayKey(new Date())!==actionDay)throw new Error('日付が切り替わりました。再読み込みしてください');
+   tx.set(target,{state:next,updatedAt:Date.now()});
+  }).then(function(){setStatus('保存完了 ✓');}).catch(function(err){online=false;setStatus('保存失敗：通信・権限を確認');showError('保存',err);}).finally(function(){pending=false;update();});
+ }
+});});
+
+function connectDay(){
+ if(unsubscribe)unsubscribe();
+ var thisGeneration=++generation;
+ online=false;update();clearError();
+ cloudRef=doc(db,'cleaning_days',activeDay);
+ setStatus('同期接続中…');
+ unsubscribe=onSnapshot(cloudRef,function(snap){
+  if(thisGeneration!==generation)return;
+  var remote=snap.exists() && Array.isArray(snap.data().state)?snap.data().state:Array(15).fill(null);
+  state=remote.length===15?remote.map(function(v){return typeof v==='string'?v:null;}):Array(15).fill(null);
+  online=!snap.metadata.fromCache && !snap.metadata.hasPendingWrites;setStatus(online?'共有中 ✓':'通信待ち：操作できません');update();
+ },function(err){if(thisGeneration!==generation)return;online=false;setStatus('接続エラー：操作停止');showError('Firestore購読',err);update();});
+}
+if(configured()){
+ setStatus('共有ライブラリ読み込み中…');clearError();
+ Promise.all([
+  import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js'),
+  import('https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js'),
+  import('https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js')
+ ]).then(function(modules){
+  initializeApp=modules[0].initializeApp;
+  getFirestore=modules[1].getFirestore;
+  doc=modules[1].doc;onSnapshot=modules[1].onSnapshot;runTransaction=modules[1].runTransaction;
+  var app=initializeApp(firebaseConfig);
+  db=getFirestore(app);
+  getAuth=modules[2].getAuth;
+  signInAnonymously=modules[2].signInAnonymously;
+  modeNotice.textContent='共有モード：通信が切れた場合は操作を停止します。';
+  return signInAnonymously(getAuth(app)).then(function(){ready=true;connectDay();});
+ }).catch(function(err){ready=false;online=false;update();setStatus('接続・匿名認証エラー（操作停止）');modeNotice.textContent='共有設定を確認してください。';showError('ライブラリ読込または匿名認証',err);});
+}else{setStatus('接続情報なし：操作停止');}
+
+update();
+setInterval(checkDay,30000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)checkDay();});
+document.getElementById('retryConnect').addEventListener('click',function(){if(ready&&db){connectDay();}else{location.reload();}});
+}());</script>
+</body></html>
