@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#152c49"><meta name="apple-mobile-web-app-title" content="清掃チェック"><title>清掃チェック</title><link rel="apple-touch-icon" href="cleaning_icon.png"><link rel="icon" type="image/png" href="cleaning_icon.png"><style>:root{font-family:'Hiragino Maru Gothic ProN','ヒラギノ丸ゴ ProN','Arial Rounded MT Bold','Yu Gothic UI','Meiryo',sans-serif;color:#20344d}*{box-sizing:border-box}body{margin:0;background:#152c49;padding:8px 13px 28px}header,section{max-width:630px;margin:0 auto 15px;border-radius:20px;background:white;overflow:hidden}header{background:#d5efff;padding:14px 18px}header h1{margin:0;font-size:23px;color:#173c65}.header-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.today-date{display:inline-block;font-size:16px;font-weight:700;color:#173c65;white-space:nowrap;flex-shrink:0;background:#fff;border-radius:20px;padding:5px 9px}@media(max-width:370px){header h1{font-size:23px}.today-date{font-size:15px;padding:5px 7px}}header p{margin:0;font-size:12px;color:#426483;min-width:0}.header-second{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;margin-top:5px}.header-right{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0}.header-top .today-date{margin-left:auto}.pill{display:inline-block;border-radius:0;background:transparent;color:#d42b32;padding:0;font-size:10px;font-weight:bold;margin-top:0;white-space:nowrap;flex-shrink:0}section h2{font-size:19px;margin:0;padding:17px 18px 12px;border-bottom:1px solid #edf1f5}section .body{padding:10px 18px}.numbers{font-size:23px;font-weight:800;color:#234d7d}.bar{height:10px;background:#e7edf4;border-radius:10px;overflow:hidden;margin:7px 0}.fill{height:100%;width:0;background:#16895c;transition:width .2s}.sub{font-size:12px;color:#71839a}.row{display:flex;align-items:center;gap:13px;min-height:52px;padding:8px 18px;border-bottom:1px solid #edf1f5;background:white;width:100%;text-align:left;border-left:0;border-right:0;border-top:0;font:inherit;color:inherit;cursor:pointer}.row:last-child{border-bottom:0}.row.done{background:#f0fbf5}.box{border:2px solid #b8c7d7;border-radius:9px;width:32px;height:32px;display:grid;place-items:center;flex:none;font-size:21px;color:white}.done .box{background:#16895c;border-color:#16895c}.label{font-size:16px;font-weight:650;flex:1}.time{font-size:11px;color:#16895c;font-weight:bold;white-space:nowrap}.hint{font-size:12px;color:#95651c;background:#fff7e7;padding:4px 8px;border-radius:8px;display:inline-block;margin-top:5px}.notice{max-width:630px;margin:15px auto;color:#e5eef9;font-size:12px;line-height:1.7}.reset{background:white;color:#315f92;border:0;border-radius:12px;padding:12px 17px;font-weight:700;cursor:pointer}footer{max-width:630px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}@media(max-width:370px){.label{font-size:14px}.row{padding:8px 12px}.time{font-size:10px}}
+/* 追加機能: 元のレイアウトは維持 */
+.time{white-space:normal;text-align:right;line-height:1.35;max-width:115px}
+.toolbar{max-width:630px;margin:-3px auto 13px;display:flex;justify-content:space-between;align-items:center;gap:10px;color:#fff;font-size:12px}
+.toolbar button,.actions button{border:0;border-radius:10px;padding:9px 12px;font:inherit;font-weight:bold;background:#eaf4ff;color:#17446e;cursor:pointer}
+.dialog-back{position:fixed;inset:0;background:#152c49aa;display:none;align-items:center;justify-content:center;z-index:20;padding:18px}
+.dialog-back.open{display:flex}.dialog{background:white;border-radius:18px;padding:22px;width:min(100%,380px);box-shadow:0 8px 30px #142b4840}
+.dialog h3{margin:0 0 12px;font-size:19px}.dialog p{font-size:14px;line-height:1.7}.dialog input{width:100%;border:1px solid #a5b8cb;border-radius:9px;font-size:18px;padding:12px}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.actions .primary{background:#1b7a57;color:#fff}.actions .danger{background:#b5343b;color:#fff}
+.print-panel{max-width:630px;margin:0 auto 14px;background:white;border-radius:16px;padding:13px 18px}.print-panel h3{margin:0 0 10px;font-size:16px}.print-panel .controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.print-panel input{font-size:15px;padding:8px;border:1px solid #b9c6d4;border-radius:7px}.print-panel button{padding:9px 14px;border:0;border-radius:8px;background:#245e95;color:white;font-weight:bold}.print-panel .sub{margin-top:8px}
+.print-panel-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.print-panel-top h3{margin:0}.staff-mini{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap;font-size:11px;color:#71839a}.staff-mini button{background:#eaf4ff;color:#17446e;font-size:11px;padding:7px 9px;white-space:nowrap}@media(max-width:440px){.print-panel-top{align-items:flex-start}.print-panel-top h3{font-size:14px}.staff-mini{max-width:145px}}
+.staff-outside{max-width:630px;margin:-5px auto 16px;display:flex;justify-content:flex-end;align-items:center;gap:8px;color:#d8e3f0;font-size:11px}.staff-outside button{border:0;border-radius:8px;background:#eaf4ff;color:#17446e;font-size:11px;font-weight:bold;padding:7px 10px;cursor:pointer}
+#mainPage[hidden],#settingsPage[hidden]{display:none!important}
+.page-nav{max-width:630px;margin:6px auto 18px}
+.page-nav button{width:100%;border:0;border-radius:14px;background:#eaf4ff;color:#17446e;padding:15px 16px;font-size:16px;font-weight:bold;cursor:pointer}
+#settingsPage .settings-title{max-width:630px;margin:0 auto 15px;border-radius:18px;background:#d5efff;padding:17px 18px;color:#173c65;font-size:21px;font-weight:bold}
+#settingsPage .staff-outside{background:white;color:#20344d;border-radius:16px;padding:17px 18px;margin:0 auto 14px;justify-content:space-between;font-size:14px}
+#settingsPage .staff-outside button{font-size:13px;padding:10px 14px}
+#printSheet{display:none}
+@media print{@page{size:A3 landscape;margin:8mm}body{background:white;padding:0}body>*:not(#printSheet){display:none!important}#printSheet{display:block!important;color:black;font-family:'Hiragino Maru Gothic ProN',Meiryo,sans-serif}#printSheet h1{text-align:center;font-size:17pt;margin:0 0 8mm}#printSheet table{border-collapse:collapse;width:100%;table-layout:fixed}#printSheet th,#printSheet td{border:1px solid #444;text-align:center;padding:3px 1px;font-size:7pt;height:13mm;overflow-wrap:anywhere}#printSheet th:first-child{width:33mm}#printSheet thead th{background:#eee}#printSheet .print-note{font-size:9pt;margin-top:5mm}}
+</style></head>
+<body>
+<div id="mainPage">
+<header><div class="header-second" style="margin-top:0"><div><h1>🧹 清掃チェック</h1><p style="margin-top:5px">今日の清掃状況をみんなで確認</p></div><div class="header-right"><span class="today-date" id="todayDate" aria-label="今日の日付">10/29（木）</span><div class="pill">毎朝5時に自動切替</div></div></div></header>
+<section><div class="body"><div class="sub">本日の清掃進捗</div><div class="numbers" id="progress">0 / 15 完了</div><div class="bar"><div class="fill" id="fill"></div></div><div class="sub" id="split">1F 0 / 11件　・　2F 0 / 4件</div></div></section>
+<section><h2>1F 清掃（11項目）</h2><div id="floor1"><button type="button" class="row" data-i="0" aria-pressed="false"><span class="box"></span><span class="label">玄関</span><span class="time"></span></button>
+<button type="button" class="row" data-i="1" aria-pressed="false"><span class="box"></span><span class="label">食堂の床<br><span class="hint">🌙 夕食後</span></span><span class="time"></span></button>
+<button type="button" class="row" data-i="2" aria-pressed="false"><span class="box"></span><span class="label">食堂の机</span><span class="time"></span></button>
+<button type="button" class="row" data-i="3" aria-pressed="false"><span class="box"></span><span class="label">事務所</span><span class="time"></span></button>
+<button type="button" class="row" data-i="4" aria-pressed="false"><span class="box"></span><span class="label">共同トイレ</span><span class="time"></span></button>
+<button type="button" class="row" data-i="5" aria-pressed="false"><span class="box"></span><span class="label">職員トイレ</span><span class="time"></span></button>
+<button type="button" class="row" data-i="6" aria-pressed="false"><span class="box"></span><span class="label">男性更衣室</span><span class="time"></span></button>
+<button type="button" class="row" data-i="7" aria-pressed="false"><span class="box"></span><span class="label">洗濯室（フィルター）</span><span class="time"></span></button>
+<button type="button" class="row" data-i="8" aria-pressed="false"><span class="box"></span><span class="label">相談室</span><span class="time"></span></button>
+<button type="button" class="row" data-i="9" aria-pressed="false"><span class="box"></span><span class="label">階段</span><span class="time"></span></button>
+<button type="button" class="row" data-i="10" aria-pressed="false"><span class="box"></span><span class="label">手すり消毒</span><span class="time"></span></button></div></section>
+<section><h2>2F 清掃（4項目）</h2><div id="floor2"><button type="button" class="row" data-i="11" aria-pressed="false"><span class="box"></span><span class="label">女性更衣室</span><span class="time"></span></button>
+<button type="button" class="row" data-i="12" aria-pressed="false"><span class="box"></span><span class="label">休憩室（220号室）</span><span class="time"></span></button>
+<button type="button" class="row" data-i="13" aria-pressed="false"><span class="box"></span><span class="label">廊下</span><span class="time"></span></button>
+<button type="button" class="row" data-i="14" aria-pressed="false"><span class="box"></span><span class="label">手すり消毒</span><span class="time"></span></button></div></section>
+<div class="page-nav"><button type="button" id="openSettings">⚙ 印刷・設定ページ</button></div>
+</div>
+<div id="settingsPage" hidden>
+<div class="settings-title">⚙ 印刷・設定ページ</div>
+<div class="print-panel"><h3>月間清掃記録（A3横・担当者名のみ）</h3><div class="controls"><input type="month" id="printMonth" aria-label="印刷する年月"><button type="button" id="printButton">月間記録を読み込む</button><button type="button" id="printPreviewButton" style="display:none;background:#16895c">印刷プレビューを開く</button></div><div class="sub" id="printStatus">月を選んで印刷できます</div><div class="controls" style="margin-top:12px"><button type="button" id="pdfCreateButton" style="display:none;background:#8054a8">PDFを作成する（比較用）</button><a id="pdfOpenLink" href="#" target="_blank" rel="noopener" style="display:none;background:#16895c;color:#fff;text-decoration:none;border-radius:8px;padding:10px 14px;font-size:14px;font-weight:bold">作成したPDFを開く</a></div><div class="sub" id="pdfStatus" role="status">PDF方式は、Safariの印刷プレビューを使わずに月間記録を表示します。</div></div>
+<div class="staff-outside"><span id="staffLabel">職員名：未登録</span><button type="button" id="changeStaff">名前変更</button></div>
+<div class="page-nav"><button type="button" id="backToCleaning">← 清掃チェックに戻る</button></div>
+</div>
+<div id="printSheet"></div>
+<div id="staffDialog" class="dialog-back" role="dialog" aria-modal="true" aria-labelledby="staffTitle"><div class="dialog"><h3 id="staffTitle">職員名を登録</h3><p>初回だけ名前を入力してください。次回からは入力不要です。</p><input id="staffInput" maxlength="20" autocomplete="name" placeholder="例：山田"><div class="actions"><button type="button" id="staffCancel">キャンセル</button><button type="button" id="staffSave" class="primary">登録する</button></div></div></div>
+<div id="undoDialog" class="dialog-back" role="dialog" aria-modal="true" aria-labelledby="undoTitle"><div class="dialog"><h3 id="undoTitle">清掃チェックの解除</h3><p id="undoMessage"></p><div class="actions"><button type="button" id="undoCancel">キャンセル</button><button type="button" id="undoConfirm" class="danger">解除する</button></div></div></div>
+<footer><span class="notice" id="syncStatus" role="status">接続状態を確認中…</span><button id="retryConnect" type="button" class="reset" style="display:none">再接続</button></footer><div id="errorDetail" class="notice" style="display:none;color:#ffd8d8"></div><div id="modeNotice" style="display:none"></div>
+<script type="module">
+'use strict';
+const firebaseConfig={apiKey:'AIzaSyBFcUkYK79sQ1i7G8tCGEENbvbHGV2Ojzw',authDomain:'takatsuki-cleaning-check.firebaseapp.com',projectId:'takatsuki-cleaning-check',storageBucket:'takatsuki-cleaning-check.firebasestorage.app',messagingSenderId:'104777878897',appId:'1:104777878897:web:22467230673359680f3528'};
+const $=id=>document.getElementById(id);
+const buttons=[...document.querySelectorAll('button[data-i]')];
+const names=buttons.map(b=>b.querySelector('.label').childNodes[0].textContent.trim());
+let db,doc,onSnapshot,runTransaction,getDoc,authReady=false,online=false,pending=false,unsubscribe=null,generation=0;
+let staff=(localStorage.getItem('cleaning_staff_name')||'').trim();
+let activeDay=dayKey(new Date()),state=Array(15).fill(null),undoIndex=-1;
+function dayKey(d){const j=new Date(d.getTime()+4*3600000);return j.getUTCFullYear()+'-'+String(j.getUTCMonth()+1).padStart(2,'0')+'-'+String(j.getUTCDate()).padStart(2,'0')}
+function displayDate(d){const p=new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',month:'numeric',day:'numeric',weekday:'short'}).formatToParts(d),v={};p.forEach(x=>v[x.type]=x.value);return v.month+'/'+v.day+'（'+v.weekday+'）'}
+function normalize(x){if(x===null)return null;if(typeof x==='string')return {name:'',time:x};if(x&&typeof x==='object'&&typeof x.name==='string'&&typeof x.time==='string')return {name:x.name,time:x.time};return null}
+function setStatus(s){$('syncStatus').textContent=s}
+function showError(stage,e){$('errorDetail').textContent=stage+'：'+(e.code||e.message||String(e));$('errorDetail').style.display='block';$('retryConnect').style.display='inline-block';console.error(stage,e)}
+function clearError(){$('errorDetail').style.display='none';$('retryConnect').style.display='none'}
+function update(){let total=0,f1=0,f2=0;buttons.forEach((b,i)=>{const v=normalize(state[i]);if(v){total++;if(i<11)f1++;else f2++}b.disabled=!authReady||!online||pending;b.classList.toggle('done',!!v);b.setAttribute('aria-pressed',v?'true':'false');b.querySelector('.box').textContent=v?'✓':'';const t=b.querySelector('.time');t.textContent=v?(v.name?v.name+' ':'')+v.time:'';t.title=v?.name||''});$('progress').textContent=total+' / 15 完了';$('fill').style.width=total/15*100+'%';$('split').textContent='1F '+f1+' / 11件　・　2F '+f2+' / 4件';$('staffLabel').textContent='職員名：'+(staff||'未登録')}
+function checkDay(){$('todayDate').textContent=displayDate(new Date());const next=dayKey(new Date());if(next!==activeDay){activeDay=next;state=Array(15).fill(null);update();if(db&&authReady)connectDay()}}
+function openDialog(id){$(id).classList.add('open')}
+function closeDialog(id){$(id).classList.remove('open')}
+function askStaff(){$('staffInput').value=staff;openDialog('staffDialog');$('staffInput').focus()}
+$('changeStaff').onclick=askStaff;
+$('staffCancel').onclick=()=>{if(staff)closeDialog('staffDialog')};
+$('staffSave').onclick=()=>{const s=$('staffInput').value.trim().replace(/\s+/g,' ');if(!s||s.length>20){alert('職員名を20文字以内で入力してください');return}staff=s;localStorage.setItem('cleaning_staff_name',s);closeDialog('staffDialog');update()};
+$('staffInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('staffSave').click()});
+$('undoCancel').onclick=()=>{undoIndex=-1;closeDialog('undoDialog')};
+$('undoConfirm').onclick=()=>{const i=undoIndex;undoIndex=-1;closeDialog('undoDialog');if(i>=0)saveCheck(i,true)};
+buttons.forEach(b=>b.onclick=()=>{checkDay();if(!authReady||!online||pending){setStatus('接続待ち：操作できません');return}if(!staff){askStaff();return}const i=Number(b.dataset.i),v=normalize(state[i]);if(v){if(v.name!==staff)return;undoIndex=i;$('undoMessage').textContent=names[i]+' の清掃チェックを解除しますか？（記録者：'+v.name+'）';openDialog('undoDialog')}else saveCheck(i,false)});
+async function saveCheck(i,remove){if(!staff){askStaff();return}if(!authReady||!online||pending)return;const target=doc(db,'cleaning_days',activeDay),actionDay=activeDay,actor=staff;pending=true;setStatus('保存中…');update();try{await runTransaction(db,async tx=>{if(dayKey(new Date())!==actionDay)throw new Error('日付が切り替わりました');const snap=await tx.get(target);let old=snap.exists()&&Array.isArray(snap.data().state)?snap.data().state:Array(15).fill(null);if(old.length!==15)throw new Error('記録形式が不正です');const next=old.slice(),existing=normalize(next[i]);if(remove){if(!existing||existing.name!==actor)throw new Error('別の職員の記録は解除できません');next[i]=null}else{if(existing)throw new Error('ほかの端末ですでにチェック済みです');next[i]={name:actor,time:new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Tokyo'})}}if(dayKey(new Date())!==actionDay)throw new Error('日付が切り替わりました');tx.set(target,{state:next,updatedAt:Date.now()})});setStatus('保存完了 ✓');clearError()}catch(e){setStatus('保存失敗');showError('保存エラー',e)}finally{pending=false;update()}}
+function connectDay(){if(unsubscribe)unsubscribe();const g=++generation;online=false;update();clearError();setStatus('同期接続中…');unsubscribe=onSnapshot(doc(db,'cleaning_days',activeDay),snap=>{if(g!==generation)return;const arr=snap.exists()?snap.data().state:null;state=Array.isArray(arr)&&arr.length===15?arr.map(normalize):Array(15).fill(null);online=!snap.metadata.fromCache&&!snap.metadata.hasPendingWrites;setStatus(online?'共有中 ✓':'通信待ち');update()},e=>{if(g!==generation)return;online=false;update();setStatus('接続エラー');showError('共有接続',e)})}
+function showPage(page){const settings=page==='settings';$('mainPage').hidden=settings;$('settingsPage').hidden=!settings;window.scrollTo(0,0)}
+$('openSettings').onclick=()=>showPage('settings');
+$('backToCleaning').onclick=()=>showPage('main');
+$('retryConnect').onclick=()=>{if(authReady&&db)connectDay();else location.reload()};
+const jstMonthParts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit'}).formatToParts(new Date());const mp={};jstMonthParts.forEach(p=>mp[p.type]=p.value);$('printMonth').value=mp.year+'-'+mp.month;
+$('printMonth').addEventListener('change',()=>{$('printPreviewButton').style.display='none';resetPdf();$('printStatus').textContent='月を選んで記録を読み込んでください'});
+$('printPreviewButton').onclick=()=>window.print();
+$('printButton').onclick=async()=>{$('printPreviewButton').style.display='none';resetPdf();if(!authReady||!online){$('printStatus').textContent='共有接続後に印刷できます';return}const month=$('printMonth').value;if(!/^\d{4}-\d{2}$/.test(month))return;const [year,m]=month.split('-').map(Number),days=new Date(Date.UTC(year,m,0)).getUTCDate();$('printButton').disabled=true;$('printStatus').textContent='月間履歴を読み込み中…';try{const data=[];for(let d=1;d<=days;d++){const key=month+'-'+String(d).padStart(2,'0');const snap=await getDoc(doc(db,'cleaning_days',key));const a=snap.exists()?snap.data().state:null;data.push(Array.isArray(a)&&a.length===15?a.map(normalize):Array(15).fill(null))}const table=document.createElement('table'),thead=document.createElement('thead'),tr=document.createElement('tr');const th=document.createElement('th');th.textContent='清掃場所';tr.append(th);for(let d=1;d<=days;d++){const c=document.createElement('th');c.textContent=d;tr.append(c)}thead.append(tr);table.append(thead);const tbody=document.createElement('tbody');names.forEach((name,i)=>{const row=document.createElement('tr'),head=document.createElement('th');head.textContent=(i<11?'1F ':'2F ')+name;row.append(head);for(let d=0;d<days;d++){const c=document.createElement('td'),v=data[d][i];c.textContent=v?(v.name||'済'):'';row.append(c)}tbody.append(row)});table.append(tbody);$('printSheet').replaceChildren();const title=document.createElement('h1');title.textContent=year+'年'+m+'月　月間清掃記録';$('printSheet').append(title,table);$('printStatus').textContent=month+' の記録を読み込みました。印刷プレビューを開いてください';$('printPreviewButton').style.display='inline-block';$('pdfCreateButton').style.display='inline-block'}catch(e){$('printStatus').textContent='履歴の取得に失敗しました';showError('月間履歴',e)}finally{$('printButton').disabled=false}};
+
+// PDF比較機能。既存の印刷・Firebase・チェック操作は変更しない。
+let pdfObjectUrl=null;
+function resetPdf(){
+  $('pdfCreateButton').style.display='none';
+  $('pdfOpenLink').style.display='none';
+  if(pdfObjectUrl){URL.revokeObjectURL(pdfObjectUrl);pdfObjectUrl=null}
+  $('pdfStatus').textContent='PDF方式は、Safariの印刷プレビューを使わずに月間記録を表示します。';
+}
+function createPdfFromJpeg(dataUrl,pxWidth,pxHeight){
+  const binary=atob(dataUrl.split(',')[1]);
+  const jpeg=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++)jpeg[i]=binary.charCodeAt(i);
+  const enc=new TextEncoder(),parts=[];let offset=0;
+  const add=x=>{const b=typeof x==='string'?enc.encode(x):x;parts.push(b);offset+=b.length};
+  const xref=[0];
+  const obj=(n,body)=>{xref[n]=offset;add(n+' 0 obj\n');add(body);add('\nendobj\n')};
+  add('%PDF-1.4\n');
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 1190.55 841.89] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+  xref[4]=offset;add('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+pxWidth+' /Height '+pxHeight+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpeg.length+' >>\nstream\n');add(jpeg);add('\nendstream\nendobj\n');
+  const stream='q\n1190.55 0 0 841.89 0 0 cm\n/Im0 Do\nQ\n';
+  obj(5,'<< /Length '+enc.encode(stream).length+' >>\nstream\n'+stream+'endstream');
+  const startxref=offset;
+  add('xref\n0 6\n0000000000 65535 f \n');
+  for(let n=1;n<=5;n++)add(String(xref[n]).padStart(10,'0')+' 00000 n \n');
+  add('trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+startxref+'\n%%EOF');
+  return new Blob(parts,{type:'application/pdf'});
+}
+function renderMonthlyPdf(){
+  const source=$('printSheet');const table=source.querySelector('table');
+  if(!table)throw new Error('月間記録を先に読み込んでください');
+  const month=$('printMonth').value;
+  const days=table.tHead.rows[0].cells.length-1;
+  const width=2480,height=1754;
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  const ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw new Error('PDF描画に対応していません');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);
+  ctx.fillStyle='#111';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.font='bold 45px sans-serif';ctx.fillText(source.querySelector('h1')?.textContent||month+' 月間清掃記録',width/2,90);
+  const x0=70,y0=165,tableWidth=width-140,tableHeight=height-245;
+  const labelWidth=300,colWidth=(tableWidth-labelWidth)/days,rowHeight=tableHeight/16;
+  ctx.strokeStyle='#555';ctx.lineWidth=1.5;
+  for(let r=0;r<=16;r++){const y=y0+r*rowHeight;ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x0+tableWidth,y);ctx.stroke()}
+  for(let d=0;d<=days;d++){const x=x0+labelWidth+d*colWidth;ctx.beginPath();ctx.moveTo(x,y0);ctx.lineTo(x,y0+tableHeight);ctx.stroke()}
+  ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0,y0+tableHeight);ctx.stroke();
+  ctx.fillStyle='#f1f1f1';ctx.fillRect(x0+1,y0+1,tableWidth-2,rowHeight-2);
+  ctx.fillStyle='#111';ctx.font='bold 27px sans-serif';ctx.fillText('清掃場所',x0+labelWidth/2,y0+rowHeight/2);
+  for(let d=0;d<days;d++)ctx.fillText(String(d+1),x0+labelWidth+(d+.5)*colWidth,y0+rowHeight/2);
+  for(let i=0;i<15;i++){
+    const row=table.tBodies[0].rows[i];
+    ctx.textAlign='left';ctx.font='bold 23px sans-serif';ctx.fillText(row.cells[0].textContent,x0+12,y0+(i+1.5)*rowHeight);
+    ctx.textAlign='center';
+    for(let d=0;d<days;d++){
+      const value=row.cells[d+1].textContent;
+      if(!value)continue;
+      const maxWidth=colWidth-5;
+      let size=23;ctx.font=size+'px sans-serif';
+      while(size>11&&ctx.measureText(value).width>maxWidth){size--;ctx.font=size+'px sans-serif'}
+      ctx.fillText(value,x0+labelWidth+(d+.5)*colWidth,y0+(i+1.5)*rowHeight,maxWidth);
+    }
+  }
+  return createPdfFromJpeg(canvas.toDataURL('image/jpeg',0.85),width,height);
+}
+$('pdfCreateButton').onclick=()=>{
+  const btn=$('pdfCreateButton');btn.disabled=true;$('pdfStatus').textContent='PDFを作成中…';
+  setTimeout(()=>{
+    try{
+      const blob=renderMonthlyPdf();
+      if(pdfObjectUrl)URL.revokeObjectURL(pdfObjectUrl);
+      pdfObjectUrl=URL.createObjectURL(blob);
+      $('pdfOpenLink').href=pdfObjectUrl;
+      $('pdfOpenLink').style.display='inline-block';
+      $('pdfStatus').textContent='PDFを作成しました。緑の「作成したPDFを開く」を押してください。';
+    }catch(e){$('pdfStatus').textContent='PDF作成に失敗しました：'+e.message;console.error(e)}
+    finally{btn.disabled=false}
+  },40);
+};
+
+update();checkDay();if(!staff)askStaff();setInterval(checkDay,10000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkDay();if(authReady&&!online)connectDay()}});
+Promise.all([import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js'),import('https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js')]).then(async ([appMod,fire,auth])=>{const app=appMod.initializeApp(firebaseConfig);db=fire.getFirestore(app);doc=fire.doc;onSnapshot=fire.onSnapshot;runTransaction=fire.runTransaction;getDoc=fire.getDoc;await auth.signInAnonymously(auth.getAuth(app));authReady=true;connectDay()}).catch(e=>{setStatus('接続・認証エラー');showError('初期接続',e)});
+</script></body></html>
